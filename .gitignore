@@ -2,6 +2,9 @@ package-lock.json
 
 node_modules
 
+/prisma/data.db
+/prisma/data.db-journal
+
 /.cache
 /build
 /public/build
