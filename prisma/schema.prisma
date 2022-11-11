@@ -26,31 +26,23 @@ model Advertisement {
   id                      String                    @id @default(cuid())
   type                    String
   image                   String
-  price                   Decimal
+  price                   Int
   localization            String
-  surface                 Decimal
+  surface                 Int
   rooms                   Int
   bedrooms                Int
   description             String
   energyDPE               String?
   energyGES               String?
   favoritesAdvertisements FavoritesAdvertisements[]
-  categories              Category[]
-}
-
-model Category {
-  id             String          @id @default(cuid())
-  name           String
-  value          String?
-  advertisements Advertisement[]
 }
 
 model FavoritesAdvertisements {
   id              String        @id @default(cuid())
   userId          String
   advertisementId String
-  advertisement   Advertisement @relation(fields: [advertisementId], references: [id])
-  user            User          @relation(fields: [userId], references: [id])
+  advertisement   Advertisement @relation(fields: [advertisementId], references: [id], onDelete: Cascade)
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, advertisementId])
 }

@@ -79,7 +79,7 @@ export default function AuthenticatedLayout() {
                       })}
                       <span
                         className={twMerge(
-                          "group-hover:font-boldgroup-hover:text-slate-700 text-base font-medium text-slate-400  focus:outline-none",
+                          "text-base font-medium text-slate-400 focus:outline-none group-hover:font-bold group-hover:text-slate-700",
                           isActive
                             ? "font-bold text-slate-800"
                             : " hover:font-bold hover:text-slate-700"
@@ -139,7 +139,7 @@ export default function AuthenticatedLayout() {
           <Form action="/logout" method="post">
             <button
               type="submit"
-              className="rounded bg-slate-300 py-2 px-4 text-white hover:bg-violet-500 active:bg-violet-600"
+              className="py-2 px-4 text-violet-500 underline"
             >
               Se déconnecter
             </button>

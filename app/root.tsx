@@ -51,3 +51,20 @@ export default function App() {
     </html>
   );
 }
+
+// export function ErrorBoundary() {
+//   return (
+//     <html lang="en" className="h-full">
+//       <head>
+//         <Meta />
+//         <Links />
+//       </head>
+//       <body className="h-full">
+//         <ErrorFallback>Quelque chose ne va pas !</ErrorFallback>
+//         <ScrollRestoration />
+//         <Scripts />
+//         <LiveReload />
+//       </body>
+//     </html>
+//   );
+// }

@@ -4,31 +4,41 @@ import {
   HomeIcon,
   MoonIcon,
   PuzzlePieceIcon,
+  TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import type { LoaderArgs } from "@remix-run/node";
+import type { ActionArgs, LoaderArgs } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, useNavigate } from "@remix-run/react";
+import { Form, useLoaderData, useNavigate } from "@remix-run/react";
 
 import { Criteria } from "~/components/criteria";
 import { Energy } from "~/components/energy";
 import { LikeButton } from "~/components/like-button";
 import { Modal, ModalContent, ModalHeader } from "~/components/modal";
-import { getAdvertisementById } from "~/models/advertisement.server";
+import {
+  getAdvertisementById,
+  removeAdvertisement,
+} from "~/models/advertisement.server";
 import { requireUserId } from "~/session.server";
 
 export async function loader({ request, params }: LoaderArgs) {
   const userId = await requireUserId(request);
   if (!params.advertisementId) throw new Response(null, { status: 400 });
-  if (params.advertisementId === "cl9ke4kkp00011ddn61w25mlk") {
+  if (params.advertisementId === "clau2warl00041dytg4zoa0d1") {
     throw json({ error: { message: "oh non" } }, 500);
   }
   const advertisement = await getAdvertisementById(
     userId,
     params.advertisementId
   );
-
   return json({ advertisement });
+}
+
+export async function action({ params }: ActionArgs) {
+  const { advertisementId } = params;
+  await removeAdvertisement(advertisementId as string);
+  return redirect("/advertisements");
 }
 
 export default function AdvertisementPage() {
@@ -46,6 +56,15 @@ export default function AdvertisementPage() {
               isFavorite={advertisement.isFavorite}
               id={advertisement.id}
             />
+            <Form method="post">
+              <button
+                type="submit"
+                title="Delete advertisement"
+                className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100"
+              >
+                <TrashIcon className="w-5 text-slate-700" />
+              </button>
+            </Form>
             <button
               onClick={goBack}
               className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100"
