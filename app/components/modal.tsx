@@ -21,7 +21,7 @@ export function Modal({
       />
       <div className="fixed inset-0">
         <div className="flex min-h-full justify-center lg:items-center lg:rounded-3xl lg:py-4">
-          <Dialog.Panel className="space-y-3 bg-neutral-50 p-3 lg:max-w-3xl lg:rounded-2xl">
+          <Dialog.Panel className="space-y-3 bg-neutral-50 p-4 lg:max-w-3xl lg:rounded-2xl">
             {children}
           </Dialog.Panel>
         </div>
@@ -33,20 +33,33 @@ export function Modal({
 export function ModalHeader({
   closeButton,
   img,
+  title,
 }: {
   closeButton?: React.ReactNode;
   img?: string;
+  title?: React.ReactNode;
 }) {
   return (
     <div className="relative">
-      <img src={img} alt="" className={img ? "h-80 w-full object-cover" : ""} />
-      <div className="absolute top-2 right-3">{closeButton}</div>
+      {img ? (
+        <img
+          src={img}
+          alt=""
+          className={img ? "h-80 w-full object-cover" : ""}
+        />
+      ) : null}
+      {title ? <div className="">{title}</div> : null}
+      <div className="absolute top-1 right-2">{closeButton}</div>
     </div>
   );
 }
 
 export function ModalContent({ children }: { children: React.ReactNode }) {
-  return <div className="overflow-auto">{children}</div>;
+  return (
+    <div className="overflow-auto">
+      <div>{children}</div>
+    </div>
+  );
 }
 
 export function ModalContentTitleLayout({

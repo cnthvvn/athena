@@ -8,9 +8,6 @@ export async function getAdvertisements(userId: string) {
   const [advertisements, favoritesAdvertisements] = await Promise.all([
     prisma.advertisement.findMany({
       orderBy: { id: "asc" },
-      include: {
-        categories: true,
-      },
     }),
     prisma.favoritesAdvertisements.findMany({ where: { userId } }),
   ]);
@@ -42,7 +39,8 @@ export async function getAdvertisementById(userId: string, id: string) {
     }),
   ]);
 
-  if (!advertisement) throw new Error("no found");
+  if (!advertisement)
+    throw new Response("advertissment not found", { status: 404 });
 
   return { ...advertisement, isFavorite: Boolean(favoritesAdvertisements?.id) };
 }
@@ -71,5 +69,15 @@ export function addToFavorite(userId: string, advertisementId: string) {
 export function removeToFavorite(userId: string, advertisementId: string) {
   return prisma.favoritesAdvertisements.deleteMany({
     where: { userId, advertisementId },
+  });
+}
+
+export function createAdvertisement(advertisement: Advertisement) {
+  return prisma.advertisement.create({ data: advertisement });
+}
+
+export function removeAdvertisement(id: string) {
+  return prisma.advertisement.delete({
+    where: { id },
   });
 }
